@@ -1,0 +1,57 @@
+2026/03/21-20:21:44.624 8ca0 Reusing MANIFEST C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/21-20:21:44.624 8ca0 Recovering log #825
+2026/03/21-20:21:44.628 8ca0 Reusing old log C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000825.log 
+2026/03/21-20:25:28.399 83b4 Level-0 table #850: started
+2026/03/21-20:25:28.417 83b4 Level-0 table #850: 1267577 bytes OK
+2026/03/21-20:25:28.418 83b4 Delete type=0 #825
+2026/03/21-20:25:28.666 83b4 Compacting 1@0 + 0@1 files
+2026/03/21-20:25:28.680 83b4 Generated table #851@0: 23068 keys, 474484 bytes
+2026/03/21-20:25:28.682 83b4 Generated table #852@0: 1562 keys, 66318 bytes
+2026/03/21-20:25:28.682 83b4 Compacted 1@0 + 0@1 files => 540802 bytes
+2026/03/21-20:25:28.682 83b4 compacted to: files[ 0 2 24 0 0 0 0 ]
+2026/03/21-20:25:28.682 83b4 Delete type=2 #850
+2026/03/21-20:26:05.651 83b4 Compacting 1@1 + 10@2 files
+2026/03/21-20:26:05.689 83b4 Generated table #853@1: 67050 keys, 2264194 bytes
+2026/03/21-20:26:05.729 83b4 Generated table #854@1: 35109 keys, 2196613 bytes
+2026/03/21-20:26:05.751 83b4 Generated table #855@1: 3226 keys, 2148412 bytes
+2026/03/21-20:26:05.773 83b4 Generated table #856@1: 3133 keys, 2150942 bytes
+2026/03/21-20:26:05.796 83b4 Generated table #857@1: 2754 keys, 2148849 bytes
+2026/03/21-20:26:05.813 83b4 Generated table #858@1: 2373 keys, 2143356 bytes
+2026/03/21-20:26:05.834 83b4 Generated table #859@1: 3530 keys, 2147240 bytes
+2026/03/21-20:26:05.855 83b4 Generated table #860@1: 3261 keys, 2144747 bytes
+2026/03/21-20:26:05.872 83b4 Generated table #861@1: 3082 keys, 2146281 bytes
+2026/03/21-20:26:05.922 83b4 Generated table #862@1: 44689 keys, 2243800 bytes
+2026/03/21-20:26:05.926 83b4 Generated table #863@1: 1877 keys, 134379 bytes
+2026/03/21-20:26:05.926 83b4 Compacted 1@1 + 10@2 files => 21868813 bytes
+2026/03/21-20:26:05.927 83b4 compacted to: files[ 0 1 25 0 0 0 0 ]
+2026/03/21-20:26:05.927 83b4 Delete type=2 #837
+2026/03/21-20:26:05.927 83b4 Delete type=2 #838
+2026/03/21-20:26:05.927 83b4 Delete type=2 #839
+2026/03/21-20:26:05.927 83b4 Delete type=2 #840
+2026/03/21-20:26:05.927 83b4 Delete type=2 #841
+2026/03/21-20:26:05.927 83b4 Delete type=2 #842
+2026/03/21-20:26:05.927 83b4 Delete type=2 #843
+2026/03/21-20:26:05.927 83b4 Delete type=2 #844
+2026/03/21-20:26:05.927 83b4 Delete type=2 #845
+2026/03/21-20:26:05.927 83b4 Delete type=2 #846
+2026/03/21-20:26:05.927 83b4 Delete type=2 #851
+2026/03/21-20:26:20.928 83b4 Compacting 1@1 + 8@2 files
+2026/03/21-20:26:20.974 83b4 Generated table #864@1: 36923 keys, 2248707 bytes
+2026/03/21-20:26:20.998 83b4 Generated table #865@1: 25382 keys, 2175596 bytes
+2026/03/21-20:26:21.016 83b4 Generated table #866@1: 13172 keys, 2137103 bytes
+2026/03/21-20:26:21.051 83b4 Generated table #867@1: 94413 keys, 2243848 bytes
+2026/03/21-20:26:21.089 83b4 Generated table #868@1: 98640 keys, 2249104 bytes
+2026/03/21-20:26:21.125 83b4 Generated table #869@1: 98882 keys, 2249522 bytes
+2026/03/21-20:26:21.162 83b4 Generated table #870@1: 99195 keys, 2248953 bytes
+2026/03/21-20:26:21.178 83b4 Generated table #871@1: 38352 keys, 998854 bytes
+2026/03/21-20:26:21.178 83b4 Compacted 1@1 + 8@2 files => 16551687 bytes
+2026/03/21-20:26:21.178 83b4 compacted to: files[ 0 0 25 0 0 0 0 ]
+2026/03/21-20:26:21.178 83b4 Delete type=2 #829
+2026/03/21-20:26:21.178 83b4 Delete type=2 #830
+2026/03/21-20:26:21.178 83b4 Delete type=2 #831
+2026/03/21-20:26:21.178 83b4 Delete type=2 #832
+2026/03/21-20:26:21.178 83b4 Delete type=2 #833
+2026/03/21-20:26:21.178 83b4 Delete type=2 #834
+2026/03/21-20:26:21.179 83b4 Delete type=2 #835
+2026/03/21-20:26:21.179 83b4 Delete type=2 #836
+2026/03/21-20:26:21.179 83b4 Delete type=2 #852
