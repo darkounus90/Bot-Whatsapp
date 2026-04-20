@@ -26,6 +26,12 @@ Este proyecto comenzó como un bot de WhatsApp para un solo e-commerce, integrad
 
 ## Detalles Técnicos
 - **Entorno**: Node.js, TypeScript.
-- **DB**: SQLite (`better-sqlite3`).
-- **AI**: Integración con paquete de `openai`.
-- **Enrutamiento**: Express.js (usado para APIs, Dashboard Web, y Webhooks).
+- **Enrutamiento**: Framework Express.js (APIs y Webhooks).
+- **DB**: SQLite (`better-sqlite3`) *-> Transicionando a Supabase*.
+- **AI**: Integración con SDK oficial de `openai`.
+
+## Skills Recomendadas para la IA (Antigravity)
+Si la otra IA que retoma el proyecto tiene soporte para Skills, recomiéndale tener activas o consultar las siguientes:
+- **`backend-patterns`**: Crítico para asegurar buenas prácticas, inyección de dependencias y patrones limpios ahora que el proyecto escala a SaaS B2B en Node.js + TypeScript.
+- **`webapp-testing`**: Para pruebas locales, levantar el entorno y chequear conexiones antes de hacer commits.
+- **`unknown-unknowns`**: Sumamente útil para prever problemas con límites de concurrencia al tener múliples inquilinos (Multi-tenant) con WhatsApp Web / Supabase.
