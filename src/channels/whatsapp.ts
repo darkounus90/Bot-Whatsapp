@@ -8,7 +8,7 @@ import { recordUserActivity } from '../bot/remarketing';
 export const whatsappRouter = Router();
 
 const pausedChats = new Set<string>();
-const currentlyReplying = new Set<string>();
+const messageQueues = new Map<string, Promise<void>>();
 
 // 1. Verificación del Webhook de Meta
 whatsappRouter.get('/', (req: Request, res: Response) => {
@@ -49,29 +49,36 @@ whatsappRouter.post('/', async (req: Request, res: Response) => {
                 return;
             }
 
-            // Ignorar si el bot está pausado temporal o permanentemente
+            // Ignorar si el bot está pausado
             if (pausedChats.has(senderPhone)) return;
-            if (currentlyReplying.has(senderPhone)) return;
 
-            logger.info(`📩 Nuevo mensaje de ${senderPhone}: ${userText}`);
+            logger.info(`📩 Nuevo mensaje de ${senderPhone} encolado: ${userText}`);
 
             // Registrar actividad
             recordUserActivity(senderPhone);
 
-            // Bloqueamos el envio asincrono temporalmente
-            currentlyReplying.add(senderPhone);
+            // Obtener la cola actual del usuario o una resolved promise
+            const currentQueue = messageQueues.get(senderPhone) || Promise.resolve();
 
-            // TODO: Podríamos descargar imágenes leyendo el media URL que envía Meta
-            const mediaData = undefined;
+            // Encolar el procesamiento del nuevo mensaje secuencialmente
+            const nextQueue = currentQueue.then(async () => {
+                // Validar si el chat se pausó mientras este mensaje esperaba su turno
+                if (pausedChats.has(senderPhone)) return;
 
-            // Procesar con el Agente AI
-            const aiResponse = await handleUserMessage(senderPhone, userText, mediaData);
+                logger.info(`🔄 Procesando turno de ${senderPhone}...`);
+                const mediaData = undefined;
+                
+                // Procesar con el Agente AI
+                const aiResponse = await handleUserMessage(senderPhone, userText, mediaData);
 
-            // Enviar respuesta al chat
-            await sendWhatsAppMessage(senderPhone, aiResponse);
+                // Enviar respuesta al chat
+                await sendWhatsAppMessage(senderPhone, aiResponse);
+            }).catch(error => {
+                logger.error(`Error procesando cola de mensajes para ${senderPhone}: ${error.message}`);
+            });
 
-            // Liberamos el semáforo para nuevos mensajes
-            currentlyReplying.delete(senderPhone);
+            // Actualizar la cola
+            messageQueues.set(senderPhone, nextQueue);
         }
     } catch (error: any) {
         logger.error(`Error grave en webhook de WhatsApp: ${error.message}`);

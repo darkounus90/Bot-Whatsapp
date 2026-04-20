@@ -1,3 +1,6 @@
-2026/03/21-20:51:21.090 6118 Reusing MANIFEST C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2026/03/21-20:51:21.093 6118 Recovering log #4
-2026/03/21-20:51:21.095 6118 Reusing old log C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
+2026/03/21-21:06:36.912 85bc Reusing MANIFEST C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/21-21:06:36.916 85bc Recovering log #4
+2026/03/21-21:06:36.918 85bc Reusing old log C:\Users\PC\Documents\WhatsappBOT\ecommerce-bot\.wwebjs_auth\session\Default\Local Storage\leveldb/000004.log 
+2026/03/21-21:07:36.922 6428 Level-0 table #7: started
+2026/03/21-21:07:36.924 6428 Level-0 table #7: 15643 bytes OK
+2026/03/21-21:07:36.925 6428 Delete type=0 #4

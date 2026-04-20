@@ -3,27 +3,24 @@ import { config } from '../config/env';
 import { logger } from '../utils/logger';
 import { SYSTEM_PROMPT } from './prompts';
 import { botTools, executeTool } from './tools';
+import { getMemory, saveMemory } from '../data/database';
 
 const openai = new OpenAI({
     apiKey: config.OPENAI_API_KEY,
     baseURL: config.OPENAI_BASE_URL || undefined
 });
 
-// Mapa para guardar el historial de la sesión en memoria
-// Estructura: sessionId -> Array de Mensajes
-const sessionMemory = new Map<string, OpenAI.Chat.ChatCompletionMessageParam[]>();
 const MAX_HISTORY_LENGTH = 15; // Mantener solo los últimos N mensajes para no saturar tokens
 
 /**
- * Obtiene el historial de una sesión o lo inicializa con el System Prompt.
+ * Obtiene el historial de una sesión desde SQLite o lo inicializa con el System Prompt.
  */
 function getOrCreateSession(sessionId: string): OpenAI.Chat.ChatCompletionMessageParam[] {
-    if (!sessionMemory.has(sessionId)) {
-        sessionMemory.set(sessionId, [
-            { role: 'system', content: SYSTEM_PROMPT }
-        ]);
+    const mem = getMemory(sessionId);
+    if (!mem || mem.length === 0) {
+        return [{ role: 'system', content: SYSTEM_PROMPT }];
     }
-    return sessionMemory.get(sessionId)!;
+    return mem;
 }
 
 /**
@@ -48,6 +45,9 @@ export async function handleUserMessage(sessionId: string, userText: string, med
     if (history.length > 15) {
         history.splice(1, history.length - 15);
     }
+    
+    // Guardamos el mensaje de usuario en SQLite por si ocurre un fallo HTTP
+    saveMemory(sessionId, history);
 
     try {
         let aiResponse = await openai.chat.completions.create({
@@ -98,11 +98,15 @@ export async function handleUserMessage(sessionId: string, userText: string, med
         history.push({ role: 'assistant', content: finalContent });
 
         // Limpieza básica del historial si se hace muy largo (dejamos el System Prompt intacto en index 0)
+        let finalHistory = history;
         if (history.length > MAX_HISTORY_LENGTH) {
             const systemPrompt = history[0];
             const recentMessages = history.slice(history.length - MAX_HISTORY_LENGTH + 1);
-            sessionMemory.set(sessionId, [systemPrompt, ...recentMessages]);
+            finalHistory = [systemPrompt, ...recentMessages];
         }
+
+        // Persistir en SQLite (evitar la amnesia de reinicio)
+        saveMemory(sessionId, finalHistory);
 
         return finalContent;
 

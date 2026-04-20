@@ -4,6 +4,8 @@ import { config } from './config/env';
 import { logger } from './utils/logger';
 import { whatsappRouter, sendWhatsAppMessage } from './channels/whatsapp';
 import { startRemarketingCron } from './bot/remarketing';
+import { dashboardRouter } from './routes/dashboard';
+import path from 'path';
 
 function bootstrap() {
     logger.info(`Iniciando AI Bot para Ecommerce: ${config.STORE_NAME}`);
@@ -15,6 +17,10 @@ function bootstrap() {
 
     // Rutear las peticiones de Meta a nuestro manejador
     app.use('/webhook/whatsapp', whatsappRouter);
+
+    // Rutear el panel de control
+    app.use('/dashboard', dashboardRouter);
+    app.use(express.static(path.join(__dirname, '../public')));
 
     app.listen(config.PORT, () => {
         logger.info(`🌍 Servidor escuchando en el puerto ${config.PORT}`);

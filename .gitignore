@@ -3,3 +3,6 @@ dist/
 .env
 .DS_Store
 *.log
+data/database.sqlite*
+.wwebjs_auth/
+.wwebjs_cache/

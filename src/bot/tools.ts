@@ -58,8 +58,8 @@ export const botTools: OpenAI.Chat.Completions.ChatCompletionTool[] = [
     {
         type: 'function',
         function: {
-            name: 'add_to_cart_link',
-            description: 'Genera un link directo de checkout o carrito para un producto, útil cuando el cliente ya decide comprar.',
+            name: 'generate_payment_link',
+            description: 'Genera un link de pago seguro (Stripe/MercadoPago) para un producto. Úsalo SÓLO cuando el cliente quiera pagar con tarjeta.',
             parameters: {
                 type: 'object',
                 properties: {
@@ -93,11 +93,12 @@ export async function executeTool(name: string, args: any): Promise<string> {
                 if (!order) return JSON.stringify({ error: "No se encontró la orden con ese ID. Asegúrate de que el formato sea ORD-XXXXX." });
                 return JSON.stringify(order);
 
-            case 'add_to_cart_link':
-                // Mapeamos el ID a un link simulado (en el futuro esto será de la API del Ecommerce real)
+            case 'generate_payment_link':
+                // Simulamos un enlace seguro de Stripe o MercadoPago para cumplir con PCI-DSS
                 return JSON.stringify({
                     success: true,
-                    link: `https://mitienda.com/checkout?product=${args.product_id}`
+                    link: `https://pagos.mitienda.com/checkout-seguro?item=${args.product_id}&gateway=stripe`,
+                    instructions_for_ai: "Indícale al cliente que por su seguridad, jamás debe dar su tarjeta por el chat, y debe usar este link encriptado."
                 });
 
             default:

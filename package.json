@@ -9,14 +9,18 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "axios": "^1.13.6",
+    "better-sqlite3": "^12.8.0",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.5",
-    "openai": "^4.29.0",
-    "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#main"
+    "express": "^5.2.1",
+    "openai": "^4.29.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/node": "^20.11.24",
-    "@types/qrcode-terminal": "^0.12.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

@@ -1,4 +1,8 @@
 {
+  "12345": {
+    "lastMessageAt": 1775635122863,
+    "remarketingSent": false
+  },
   "77846433243383@lid": {
     "lastMessageAt": 1774144108089,
     "remarketingSent": false
@@ -6,5 +10,13 @@
   "132422582710303@lid": {
     "lastMessageAt": 1774144394441,
     "remarketingSent": false
+  },
+  "83021885636826@lid": {
+    "lastMessageAt": 1774145287558,
+    "remarketingSent": false
+  },
+  "573219813212": {
+    "lastMessageAt": 1774394885981,
+    "remarketingSent": true
   }
 }
