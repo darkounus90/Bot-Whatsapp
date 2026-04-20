@@ -31,7 +31,10 @@ Este proyecto comenzó como un bot de WhatsApp para un solo e-commerce, integrad
 - **AI**: Integración con SDK oficial de `openai`.
 
 ## Skills Recomendadas para la IA (Antigravity)
-Si la otra IA que retoma el proyecto tiene soporte para Skills, recomiéndale tener activas o consultar las siguientes:
-- **`backend-patterns`**: Crítico para asegurar buenas prácticas, inyección de dependencias y patrones limpios ahora que el proyecto escala a SaaS B2B en Node.js + TypeScript.
-- **`webapp-testing`**: Para pruebas locales, levantar el entorno y chequear conexiones antes de hacer commits.
-- **`unknown-unknowns`**: Sumamente útil para prever problemas con límites de concurrencia al tener múliples inquilinos (Multi-tenant) con WhatsApp Web / Supabase.
+Dado que estas herramientas corren localmente en la IA del usuario, asegúrate de tener instaladas e invocar explícitamente las siguientes *Skills* de Antigravity (rutas relativas a `~/.gemini/antigravity/skills/`):
+
+1. **[`backend-patterns`](../skills/backend-patterns/SKILL.md)**: Crítico para asegurar buenas prácticas, inyección de dependencias y patrones limpios ahora que el proyecto escala a SaaS B2B en Node.js + TypeScript.
+2. **[`unknown-unknowns`](../skills/unknown-unknowns/SKILL.md)**: Para prever problemas (blind spots) con límites de concurrencia al tener múltiples inquilinos en WhatsApp Cloud API y Supabase.
+3. **[`VibeSec-Skill`](../skills/vibesec/SKILL.md)**: Para garantizar auditorías de seguridad, protección de credenciales y buenas prácticas B2B a fin de que los inquilinos (tenants) no vean los datos de los demás.
+4. **[`frontend-design`](../skills/frontend-design/SKILL.md)**: Indispensable para la fase gráfica del SaaS (el panel web/dashboard). Garantiza un look premium y corporativo sin diseños genéricos.
+5. **[`webapp-testing`](../skills/webapp-testing/SKILL.md)**: Para verificar en local con Playwright que el dashboard y los webhooks funcionen bien antes de cualquier pase a producción.
