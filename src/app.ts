@@ -5,6 +5,7 @@ import { logger } from './utils/logger';
 import { whatsappRouter, sendWhatsAppMessage } from './channels/whatsapp';
 import { startRemarketingCron } from './bot/remarketing';
 import { dashboardRouter } from './routes/dashboard';
+import { authRouter } from './routes/auth';
 import path from 'path';
 
 function bootstrap() {
@@ -19,6 +20,7 @@ function bootstrap() {
     app.use('/webhook/whatsapp', whatsappRouter);
 
     // Rutear el panel de control
+    app.use('/dashboard', authRouter);
     app.use('/dashboard', dashboardRouter);
     app.use(express.static(path.join(__dirname, '../public')));
 

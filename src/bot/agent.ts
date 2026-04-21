@@ -13,10 +13,10 @@ const openai = new OpenAI({
 const MAX_HISTORY_LENGTH = 15; // Mantener solo los últimos N mensajes para no saturar tokens
 
 /**
- * Obtiene el historial de una sesión desde SQLite o lo inicializa con el System Prompt.
+ * Obtiene el historial de una sesión desde Supabase o lo inicializa con el System Prompt.
  */
-function getOrCreateSession(sessionId: string): OpenAI.Chat.ChatCompletionMessageParam[] {
-    const mem = getMemory(sessionId);
+async function getOrCreateSession(sessionId: string): Promise<OpenAI.Chat.ChatCompletionMessageParam[]> {
+    const mem = await getMemory(sessionId);
     if (!mem || mem.length === 0) {
         return [{ role: 'system', content: SYSTEM_PROMPT }];
     }
@@ -27,7 +27,7 @@ function getOrCreateSession(sessionId: string): OpenAI.Chat.ChatCompletionMessag
  * Función principal para procesar el mensaje de un usuario.
  */
 export async function handleUserMessage(sessionId: string, userText: string, media?: {mimetype: string, data: string}): Promise<string> {
-    const history = getOrCreateSession(sessionId);
+    const history = await getOrCreateSession(sessionId);
     
     // Agregar el mensaje del usuario al historial (soporte para imágenes)
     let contentPayload: any = userText || "Revísalo por favor.";
@@ -46,8 +46,8 @@ export async function handleUserMessage(sessionId: string, userText: string, med
         history.splice(1, history.length - 15);
     }
     
-    // Guardamos el mensaje de usuario en SQLite por si ocurre un fallo HTTP
-    saveMemory(sessionId, history);
+    // Guardamos el mensaje de usuario en Supabase por si ocurre un fallo HTTP
+    await saveMemory(sessionId, history);
 
     try {
         let aiResponse = await openai.chat.completions.create({

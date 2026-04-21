@@ -437,6 +437,24 @@
     <div class="bg-glow" style="width:400px;height:400px;background:rgba(16,185,129,0.06);top:-100px;right:-100px;position:fixed;"></div>
     <div class="bg-glow" style="width:400px;height:400px;background:rgba(59,130,246,0.05);bottom:-100px;left:-100px;position:fixed;"></div>
 
+    <!-- ───── LOGIN OVERLAY ───── -->
+    <div class="modal-overlay" id="loginOverlay" style="background: var(--bg); backdrop-filter: none; z-index: 1000; display: flex;">
+        <div class="modal" style="width: 400px; text-align: center; padding: 40px 30px;">
+            <div class="logo-icon" style="margin: 0 auto 20px auto; width: 60px; height: 60px; font-size: 32px;"><i class="ph ph-lock-key"></i></div>
+            <h2 style="margin-bottom: 8px;">Panel Protegido</h2>
+            <p style="font-size: 13px; color: var(--text2); margin-bottom: 24px;">Ingresa la contraseña para continuar</p>
+            
+            <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                <input type="password" id="loginPassword" placeholder="••••••••" style="text-align: center; font-size: 16px; padding: 12px; letter-spacing: 2px;" onkeydown="if(event.key === 'Enter') doLogin()">
+            </div>
+            
+            <button class="btn-primary" style="width: 100%; justify-content: center; font-size: 14px; padding: 12px;" onclick="doLogin()" id="btnLogin">
+                Desbloquear <i class="ph ph-arrow-right"></i>
+            </button>
+            <p id="loginError" style="color: var(--red); font-size: 12px; margin-top: 12px; display: none;">Contraseña incorrecta</p>
+        </div>
+    </div>
+
     <!-- ───── HEADER ───── -->
     <header class="glass">
         <div class="logo">
@@ -579,6 +597,54 @@
 
     <script>
     // ═══════════════════════════════════════
+    //  AUTH
+    // ═══════════════════════════════════════
+    function getAuthToken() { return localStorage.getItem('bot_admin_token'); }
+
+    async function apiFetch(url, options = {}) {
+        if (!options.headers) options.headers = {};
+        options.headers['Authorization'] = `Bearer ${getAuthToken()}`;
+        options.headers['Content-Type'] = 'application/json';
+        
+        const res = await fetch(url, options);
+        if (res.status === 401 || res.status === 403) {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            throw new Error('No autorizado');
+        }
+        return res;
+    }
+
+    async function doLogin() {
+        const pass = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('btnLogin');
+        const err = document.getElementById('loginError');
+        
+        btn.innerHTML = '<i class="ph ph-spinner" style="animation:spin 1s linear infinite"></i>';
+        err.style.display = 'none';
+
+        try {
+            const res = await fetch('/dashboard/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pass })
+            });
+            
+            if (!res.ok) throw new Error('Contraseña incorrecta');
+            
+            const data = await res.json();
+            localStorage.setItem('bot_admin_token', data.token);
+            
+            document.getElementById('loginOverlay').style.display = 'none';
+            refreshAll();
+        } catch (e) {
+            err.style.display = 'block';
+            err.textContent = e.message;
+        } finally {
+            btn.innerHTML = 'Desbloquear <i class="ph ph-arrow-right"></i>';
+        }
+    }
+
+    // ═══════════════════════════════════════
     //  STATE
     // ═══════════════════════════════════════
     let allSessions = [];
@@ -612,7 +678,7 @@
     // ═══════════════════════════════════════
     async function loadSessions() {
         try {
-            const res = await fetch('/dashboard/api/sessions');
+            const res = await apiFetch('/dashboard/api/sessions');
             allSessions = await res.json();
             document.getElementById('chatCount').textContent = allSessions.length;
             renderSessionsList();
@@ -711,7 +777,7 @@
     // ═══════════════════════════════════════
     async function loadProducts() {
         try {
-            const res = await fetch('/dashboard/api/products');
+            const res = await apiFetch('/dashboard/api/products');
             allProducts = await res.json();
             document.getElementById('productCount').textContent = allProducts.length;
             renderProducts();
@@ -813,13 +879,13 @@
 
         try {
             if (editingProductId) {
-                await fetch(`/dashboard/api/products/${editingProductId}`, {
+                await apiFetch(`/dashboard/api/products/${editingProductId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body)
                 });
             } else {
-                await fetch('/dashboard/api/products', {
+                await apiFetch('/dashboard/api/products', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body)
@@ -835,7 +901,7 @@
     async function confirmDelete(id, nombre) {
         if (!confirm(`¿Eliminar "${nombre}" del catálogo? Esta acción no se puede deshacer.`)) return;
         try {
-            await fetch(`/dashboard/api/products/${id}`, { method: 'DELETE' });
+            await apiFetch(`/dashboard/api/products/${id}`, { method: 'DELETE' });
             await loadProducts();
         } catch (e) {
             alert('Error eliminando producto');
@@ -845,9 +911,14 @@
     // ═══════════════════════════════════════
     //  INIT
     // ═══════════════════════════════════════
-    loadSessions();
-    loadProducts();
-    setInterval(loadSessions, 5000);
+    if (getAuthToken()) {
+        document.getElementById('loginOverlay').style.display = 'none';
+        loadSessions();
+        loadProducts();
+    }
+    setInterval(() => {
+        if (getAuthToken()) loadSessions();
+    }, 5000);
     </script>
 </body>
 </html>
